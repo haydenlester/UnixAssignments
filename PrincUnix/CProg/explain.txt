@@ -1,0 +1,33 @@
+
+In file included from main.c:2:0:
+file2.h:2:6: error: redefinition of ‘a’
+ char a = 2;
+      ^
+In file included from main.c:1:0:
+file1.h:2:6: note: previous definition of ‘a’ was here
+ char a = 1;
+      ^
+-----------------------
+EXPLANATION OF ABOVE:
+Since file1.h and file2.h are being compiled together,
+it should be ensured that no variables share names with other variables
+present in their same scope.
+Here, two declarations use the same name, so it throws an error.
+-----------------------
+
+
+In file included from main.c:2:0:
+file2.h:3:15: error: conflicting types for ‘b’
+ extern double b;
+               ^
+In file included from main.c:1:0:
+file1.h:3:5: note: previous definition of ‘b’ was here
+ int b = 1;
+-----------------------
+EXPLANATION OF ABOVE:
+This is not a simple redefinition.
+The extern keyword changes the linkage to make an external variable available.
+The external variable presumably exists in another C file or header file.
+The issue is that it is trying to make an external DOUBLE named b available,
+whereas b has already been defined as an INT (NOT A DOUBLE) in file1.h
+-----------------------
